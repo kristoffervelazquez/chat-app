@@ -1,0 +1,10 @@
+.box-shadow {
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+.chat-form {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    align-content: space-between;
+}
