@@ -10,7 +10,7 @@ export const theme = createTheme({
         secondary: {
             main: '#543884'
         },
-        error:{
+        error: {
             main: red.A400
         }
     }

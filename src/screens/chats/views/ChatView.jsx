@@ -1,17 +1,55 @@
-import { Button, Grid, TextField, Typography } from "@mui/material"
+import { Container, Divider, FormControl, Grid, IconButton, List, ListItem, ListItemText, Paper, TextField, Typography } from "@mui/material";
+import { Box } from "@mui/system";
+import './Chat.css';
+import SendIcon from '@mui/icons-material/Send';
+import { FileUploadTwoTone } from "@mui/icons-material";
 
 
 const ChatView = () => {
-    return (
-        <Grid container direction="row" justifyContent='space-between' sx={{ mb: 1 }}>
-            
-            <form className="chat-form"> 
-                <Grid container direction="row" justifyContent='space-between' sx={{ mb: 1}}>
-                    <TextField type="text" variant="filled" fullWidth label="Write your message" sx={{ border: 'none', mt: 1 }} />
-                </Grid>
-            </form>
 
-        </Grid>
+    return (
+        <Container>
+            <Box p={3}>
+                <Divider />
+                <Grid container spacing={4} alignItems="center">
+                    <Grid id="chat-window" xs={12} item>
+                        <List id="chat-window-messages">
+                            <ListItem></ListItem>
+                        </List>
+                    </Grid>
+                    {/* <Grid xs={2} item>
+                                <FormControl fullWidth>
+                                    <TextField
+                                        label="Nickname"
+                                        variant="outlined" />
+                                </FormControl>
+                            </Grid> */}
+                    <Grid xs={10} item>
+                        <FormControl fullWidth>
+                            <TextField
+                                label="Type your message..."
+                                variant="outlined" />
+                        </FormControl>
+                    </Grid>
+                    <Grid xs={1} item>
+                        <IconButton
+                            aria-label="emoji"
+                            color="primary">
+                            <FileUploadTwoTone />
+                        </IconButton>
+                    </Grid>
+                    <Grid xs={1} item>
+                        <IconButton
+                            aria-label="send"
+                            color="primary">
+                            <SendIcon />
+                        </IconButton>
+                    </Grid>
+                </Grid>
+            </Box>
+        </Container>
+
+
     )
 }
 
