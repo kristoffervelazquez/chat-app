@@ -8,7 +8,7 @@ import { FileUploadTwoTone } from "@mui/icons-material";
 const ChatView = () => {
 
     return (
-        <Container>
+        <Container className='animate__animated animate__fadeIn animate__faster'>
             <Box p={3}>
                 <Divider />
                 <Grid container spacing={4} alignItems="center">

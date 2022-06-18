@@ -14,12 +14,12 @@ const AuthLayout = ({ children, title = '' }) => {
             <Grid item
                 className="box-shadow"
                 xs={3}
-                sx={{ backgroundColor: 'white', padding: 3, borderRadius: 2, width: {md: 450} }}
+                sx={{ backgroundColor: 'white', padding: 3, borderRadius: 2, width: { md: 450 } }}
             >
                 <Typography variant="h5" sx={{ mb: 1 }}>{title}</Typography>
 
                 {/*Login/Register */}
-                {children} 
+                {children}
             </Grid >
         </Grid >
     )

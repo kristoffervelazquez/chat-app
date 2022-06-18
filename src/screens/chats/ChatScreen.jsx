@@ -6,8 +6,8 @@ import NothingSelectedView from "./views/NothingSelectedView"
 const ChatScreen = () => {
     return (
         <ChatLayout>
-            {/* <NothingSelectedView /> */}
-            <ChatView />
+            <NothingSelectedView />
+            {/* <ChatView /> */}
         </ChatLayout>
     )
 }

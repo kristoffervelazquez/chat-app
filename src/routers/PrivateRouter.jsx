@@ -1,11 +1,9 @@
 import { Navigate } from 'react-router-dom'
-import ChatScreen from '../screens/chats/ChatScreen'
 
-const PrivateRouter = () => {
-    return (
-        <ChatScreen />
-    )
-    // <Navigate to='/' replace />
+
+const PrivateRouter = ({children , status }) => {
+
+    return status === 'authenticated' ? children : <Navigate to='auth/login'/>
 }
 
 export default PrivateRouter

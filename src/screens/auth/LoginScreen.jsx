@@ -34,7 +34,7 @@ const LoginScreen = () => {
 
     return (
         <AuthLayout title="Login">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className='animate__animated animate__bounceIn animate__faster'>
                 <Grid container>
                     <Grid item xs={12} sx={{ marginTop: 2 }}>
                         <TextField

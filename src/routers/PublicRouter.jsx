@@ -1,9 +1,10 @@
 import { Navigate } from 'react-router-dom'
-import AuthRouter from './AuthRouter'
 
-const PublicRouter = () => {
+const PublicRouter = ({ status, children }) => {
 
-    return <AuthRouter />
+    return (status === 'authenticated') ? <Navigate replace to="/" />
+        :
+        children
 }
 
 export default PublicRouter
