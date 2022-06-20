@@ -1,22 +1,31 @@
+import { useSelector, useDispatch } from "react-redux"
+import validator from "validator";
 import { ChatOutlined, PersonAdd } from "@mui/icons-material"
 import { Box, Divider, Drawer, Grid, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material"
-import { useSelector, useDispatch } from "react-redux"
-
-import { setActiveChat } from "../../../components/store/chats/thunks";
+import { addNewChat, setActiveChat } from "../../../components/store/chats/thunks";
+import { useCollection } from "react-firebase-hooks/firestore";
+import { collection } from "firebase/firestore";
+import { db } from "../../../firebase/firebaseConfig";
 
 
 
 const SideBar = ({ drawerWidth = 240 }) => {
 
-    const { chats } = useSelector(state => state.chats);
     const dispatch = useDispatch()
     const { displayName } = useSelector(state => state.auth);
 
-    const chatsX = [{ id: 1, username: 'Hanna', msg: 'holaaaa comostas?', time: 1231231231 }, { id: 2, username: 'Shimuelo', msg: 'atun porfavor', time: 1286231231 }, { id: 3, username: 'Gorda', msg: 'poio pls ase ambre', time: 1686731231 }]
-
+    const [snapshot, loading, error] = useCollection(collection(db, "chats"));
+    const chats = snapshot?.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    
 
     const handleAddChat = () => {
-        console.log('click');
+        const newUser = prompt('Type the email: ');
+
+        if (validator.isEmail(newUser)) {
+            dispatch(addNewChat(newUser));
+        } else {
+            console.log('ni de pedo')
+        }
 
     }
 
@@ -49,16 +58,16 @@ const SideBar = ({ drawerWidth = 240 }) => {
 
                 <List>
                     {
-                        chatsX &&
-                        chatsX.map(({ id, username, msg, time }) => (
+                        chats &&
+                        chats.map(({ id, users }) => (
 
-                            <ListItemButton key={id} onClick={() => { handleClick(id, { id, username, msg, time }) }}>
+                            <ListItemButton key={id} onClick={() => { handleClick(id, { username: users[1] }) }}>
                                 <ListItemIcon>
                                     <ChatOutlined />
                                 </ListItemIcon> {/* Imagen de la persona del chat */}
                                 <Grid container>
-                                    <ListItemText primary={username} />
-                                    <ListItemText secondary={`${msg} ${time}`} />
+                                    <ListItemText primary={users[1]} />
+                                    {/* <ListItemText secondary={`${msg} ${time}`} /> */}
                                 </Grid>
                             </ListItemButton>
 

@@ -11,11 +11,14 @@ export const chatSlice = createSlice({
         activeChat: (state, { payload }) => {
             state.active = payload
         },
-        addNewChat: (state, { payload }) => {
-            state.chats =  [payload, ...state.chats];
+        newChat: (state, { payload }) => {
+            state.chats = [payload, ...state.chats];
+        },
+        loadChats: (state, { payload }) => {
+            state.chats = [payload, ...state.chats];
         }
     }
 })
 
 
-export const { activeChat, addNewChat } = chatSlice.actions;
+export const { activeChat, newChat } = chatSlice.actions;
