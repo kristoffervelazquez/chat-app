@@ -1,13 +1,29 @@
-import { ChatOutlined } from "@mui/icons-material"
-import { Box, Divider, Drawer, Grid, List, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material"
-import { useSelector } from "react-redux"
+import { ChatOutlined, PersonAdd } from "@mui/icons-material"
+import { Box, Divider, Drawer, Grid, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material"
+import { useSelector, useDispatch } from "react-redux"
+
+import { setActiveChat } from "../../../components/store/chats/thunks";
+
 
 
 const SideBar = ({ drawerWidth = 240 }) => {
 
+    const { chats } = useSelector(state => state.chats);
+    const dispatch = useDispatch()
     const { displayName } = useSelector(state => state.auth);
 
-    const chats = [{ id: 1, username: 'Hanna', msg: 'holaaaa comostas?', time: 1231231231 }, { id: 2, username: 'Shimuelo', msg: 'atun porfavor', time: 1286231231 }, { id: 3, username: 'Gorda', msg: 'poio pls ase ambre', time: 1686731231 }]
+    const chatsX = [{ id: 1, username: 'Hanna', msg: 'holaaaa comostas?', time: 1231231231 }, { id: 2, username: 'Shimuelo', msg: 'atun porfavor', time: 1286231231 }, { id: 3, username: 'Gorda', msg: 'poio pls ase ambre', time: 1686731231 }]
+
+
+    const handleAddChat = () => {
+        console.log('click');
+
+    }
+
+    const handleClick = (id, chat) => {
+        dispatch(setActiveChat(id, chat));
+    }
+
 
     return (
         <Box
@@ -25,14 +41,18 @@ const SideBar = ({ drawerWidth = 240 }) => {
 
                 <Toolbar>
                     <Typography variant='h6' noWrap component='div'>{displayName}</Typography>
+                    <IconButton onClick={handleAddChat} color='primary'>
+                        <PersonAdd />
+                    </IconButton>
                 </Toolbar>
                 <Divider />
 
                 <List>
                     {
-                        chats.map(({ id, username, msg, time }) => (
+                        chatsX &&
+                        chatsX.map(({ id, username, msg, time }) => (
 
-                            <ListItemButton key={id}>
+                            <ListItemButton key={id} onClick={() => { handleClick(id, { id, username, msg, time }) }}>
                                 <ListItemIcon>
                                     <ChatOutlined />
                                 </ListItemIcon> {/* Imagen de la persona del chat */}

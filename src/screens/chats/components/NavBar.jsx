@@ -1,10 +1,13 @@
 import { AppBar, Grid, IconButton, Toolbar, Typography } from '@mui/material'
 import { LogoutOutlined, MenuOutlined } from '@mui/icons-material'
 import { startLogout } from '../../../components/store/auth/thunks'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 
 const NavBar = ({ drawerWidth = 240 }) => {
+
+
+    const { active } = useSelector(state => state.chats)
 
     const dispatch = useDispatch();
 
@@ -30,11 +33,15 @@ const NavBar = ({ drawerWidth = 240 }) => {
                 </IconButton>
 
                 <Grid container direction='row' justifyContent='space-between' alignItems='center'>
-                    <Typography variant='h6' noWrap component='div'> My-Chat-App </Typography>
+                    {
+                        active &&
+                        <Typography variant='h6' noWrap component='div'> {active.chat.username} </Typography>
+                    }
 
                     <IconButton onClick={handleLogout} color='error'>
                         <LogoutOutlined />
                     </IconButton>
+
                 </Grid>
 
             </Toolbar>
