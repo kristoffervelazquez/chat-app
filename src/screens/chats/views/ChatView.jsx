@@ -37,7 +37,7 @@ const ChatView = () => {
                         
                     </ListItem>
                 </Grid>
-            )
+            );
         })
 
     // useEffect(() =>
