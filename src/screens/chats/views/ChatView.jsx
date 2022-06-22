@@ -1,4 +1,4 @@
-import { Container, Divider, FormControl, Grid, IconButton, List, ListItem, ListItemText, Paper, TextField, Typography } from "@mui/material";
+import { Avatar, Container, Divider, FormControl, Grid, IconButton, List, ListItem, ListItemText, Paper, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import './Chat.css';
 import SendIcon from '@mui/icons-material/Send';
@@ -6,15 +6,16 @@ import { FileUploadTwoTone } from "@mui/icons-material";
 import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
 import { db } from "../../../firebase/firebaseConfig";
 import { useSelector } from "react-redux";
-import { collection, doc, orderBy, query, onSnapshot } from "firebase/firestore";
+import { addDoc, collection, doc, orderBy, query, serverTimestamp } from "firebase/firestore";
 import { useRef } from "react";
 import { useState } from "react";
+
 
 
 const ChatView = () => {
 
     const { active } = useSelector(state => state.chats);
-    const { email } = useSelector(state => state.auth);
+    const { email, displayName, photoURL } = useSelector(state => state.auth);
     const [message, setMessage] = useState('');
 
     const { id } = active;
@@ -27,11 +28,13 @@ const ChatView = () => {
 
     const getMessages = () =>
         conversation?.map(msg => {
-            const sender = msg.sender === email;
+            const sender = msg.sender === displayName;
             return (
                 <Grid key={Math.random()} >
-                    <ListItem sx={{ fontSize: '24px', background: 'blue', mb: 1, overflow: 'none' }}>
-                        {`${msg.sender}: ${msg.message}`}
+                    <ListItem sx={{ display: 'flex', maxWidth: 'fit-content', fontSize: '20px', background: sender ? 'green' : '#304D63', mb: 1, borderRadius: '20px', marginRight: sender && '0px', marginLeft: sender && 'auto' }}>
+                        <Avatar variant="circular" src={msg.senderPhoto} />
+                        <Typography sx={{ml: '10px', fontWeight: 'thin'}} variant="p">{msg.message}</Typography>
+                        
                     </ListItem>
                 </Grid>
             )
@@ -45,8 +48,22 @@ const ChatView = () => {
     //         }), 100)
     //     , [conversation]);
 
+    const sendMessage = async (text) => {
 
-    const handleSendMessage = () => {
+        await addDoc(collection(db, `chats/${id}/conversation`), {
+            sender: displayName,
+            message: text,
+            senderPhoto: photoURL ? photoURL : 'https://icon-library.com/images/no-profile-picture-icon/no-profile-picture-icon-14.jpg',
+            timestamp: serverTimestamp()
+        });
+        setMessage('');
+    }
+
+    const handleSendMessage = (e) => {
+        e.preventDefault();
+        if (message.trim().length <= 0) return;
+
+        sendMessage(message);
 
     }
 
@@ -67,18 +84,22 @@ const ChatView = () => {
                                         variant="outlined" />
                                 </FormControl>
                             </Grid> */}
+
                     <Grid xs={10} item>
-                        <FormControl fullWidth>
-                            <TextField
-                                label="Type your message..."
-                                variant="outlined"
-                                value={message}
-                                onChange={setMessage} />
-                        </FormControl>
+                        <form onSubmit={handleSendMessage} action="">
+
+                            <FormControl fullWidth>
+                                <TextField
+                                    label="Type your message..."
+                                    variant="outlined"
+                                    value={message}
+                                    onChange={(e) => { setMessage(e.target.value) }} />
+                            </FormControl>
+                        </form>
                     </Grid>
                     <Grid xs={1} item>
                         <IconButton
-                            aria-label="emoji"
+                            aria-label="file"
                             color="primary">
                             <FileUploadTwoTone />
                         </IconButton>
@@ -87,7 +108,9 @@ const ChatView = () => {
                         <IconButton
                             onClick={handleSendMessage}
                             aria-label="send"
-                            color="primary">
+                            color="primary"
+                            type='submit'
+                        >
                             <SendIcon />
                         </IconButton>
                     </Grid>

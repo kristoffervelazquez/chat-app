@@ -12,11 +12,11 @@ import { db } from "../../../firebase/firebaseConfig";
 const SideBar = ({ drawerWidth = 240 }) => {
 
     const dispatch = useDispatch()
-    const { displayName } = useSelector(state => state.auth);
+    const { displayName, email } = useSelector(state => state.auth);
 
     const [snapshot, loading, error] = useCollection(collection(db, "chats"));
     const chats = snapshot?.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    
+
 
     const handleAddChat = () => {
         const newUser = prompt('Type the email: ');
@@ -32,6 +32,11 @@ const SideBar = ({ drawerWidth = 240 }) => {
     const handleClick = (id, chat) => {
         dispatch(setActiveChat(id, chat));
     }
+
+    const displayUser = (users) => {
+        return users.filter(user => user !== email);
+    }
+
 
 
     return (
@@ -61,12 +66,12 @@ const SideBar = ({ drawerWidth = 240 }) => {
                         chats &&
                         chats.map(({ id, users }) => (
 
-                            <ListItemButton key={id} onClick={() => { handleClick(id, { username: users[1] }) }}>
+                            <ListItemButton key={id} onClick={() => { handleClick(id, { username: displayUser(users) }) }}>
                                 <ListItemIcon>
                                     <ChatOutlined />
                                 </ListItemIcon> {/* Imagen de la persona del chat */}
                                 <Grid container>
-                                    <ListItemText primary={users[1]} />
+                                    <ListItemText primary={displayUser(users)} />
                                     {/* <ListItemText secondary={`${msg} ${time}`} /> */}
                                 </Grid>
                             </ListItemButton>

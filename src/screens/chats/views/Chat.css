@@ -3,6 +3,7 @@
 }
 
 #chat-window-messages {
-    height: 18rem;
+    height: calc(100vh - 12rem);
+    overflow: auto;
     
 }
