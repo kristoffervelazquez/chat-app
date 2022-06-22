@@ -1,14 +1,14 @@
+import { useEffect, useRef, useState } from "react";
+import { addDoc, collection, doc, orderBy, query, serverTimestamp } from "firebase/firestore";
+import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
 import { Avatar, Container, Divider, FormControl, Grid, IconButton, List, ListItem, ListItemText, Paper, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import './Chat.css';
 import SendIcon from '@mui/icons-material/Send';
 import { FileUploadTwoTone } from "@mui/icons-material";
-import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
 import { db } from "../../../firebase/firebaseConfig";
 import { useSelector } from "react-redux";
-import { addDoc, collection, doc, orderBy, query, serverTimestamp } from "firebase/firestore";
-import { useRef } from "react";
-import { useState } from "react";
+import './Chat.css';
+
 
 
 
@@ -33,20 +33,20 @@ const ChatView = () => {
                 <Grid key={Math.random()} >
                     <ListItem sx={{ display: 'flex', maxWidth: 'fit-content', fontSize: '20px', background: sender ? 'green' : '#304D63', mb: 1, borderRadius: '20px', marginRight: sender && '0px', marginLeft: sender && 'auto' }}>
                         <Avatar variant="circular" src={msg.senderPhoto} />
-                        <Typography sx={{ml: '10px', fontWeight: 'thin'}} variant="p">{msg.message}</Typography>
-                        
+                        <Typography sx={{ ml: '10px', fontWeight: 'thin' }} variant="p">{msg.message}</Typography>
+
                     </ListItem>
                 </Grid>
             );
         })
 
-    // useEffect(() =>
-    //     setTimeout(
-    //         bottomOfChat.current.scrollIntoView({
-    //             behavior: "smooth",
-    //             block: 'start',
-    //         }), 100)
-    //     , [conversation]);
+    useEffect(() =>
+
+        bottomOfChat.current.scrollIntoView({
+            behavior: "smooth",
+            block: 'start',
+        })
+        , [conversation]);
 
     const sendMessage = async (text) => {
 
@@ -75,6 +75,7 @@ const ChatView = () => {
                     <Grid id="chat-window" xs={12} item>
                         <List id="chat-window-messages">
                             {getMessages()}
+                            <div ref={bottomOfChat}></div>
                         </List>
                     </Grid>
                     {/* <Grid xs={2} item>
@@ -92,6 +93,7 @@ const ChatView = () => {
                                 <TextField
                                     label="Type your message..."
                                     variant="outlined"
+                                    autoComplete="off"
                                     value={message}
                                     onChange={(e) => { setMessage(e.target.value) }} />
                             </FormControl>
