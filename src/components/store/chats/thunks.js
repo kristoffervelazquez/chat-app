@@ -1,5 +1,4 @@
 import { addDoc, collection } from "firebase/firestore"
-import { useCollection } from 'react-firebase-hooks/firestore'
 import { db } from "../../../firebase/firebaseConfig"
 import { activeChat, newChat } from "./chatsSlice"
 
@@ -23,12 +22,12 @@ export const addNewChat = (newUser) => {
 }
 
 
-export const startLoadingChats = () => {
-    return async (dispatch, getState) => {
-        const user = getState().auth;
-        const [snapshot, loading, error] = useCollection(collection(db, "chats"))
-        const chats = snapshot?.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+// export const startLoadingChats = () => {
+//     return async (dispatch, getState) => {
+//         const user = getState().auth;
+//         const [snapshot, loading, error] = useCollection(collection(db, "chats"))
+//         const chats = snapshot?.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-        console.log(chats)
-    }
-}
+//         console.log(chats)
+//     }
+// }

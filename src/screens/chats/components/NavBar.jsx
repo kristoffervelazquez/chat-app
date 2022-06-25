@@ -1,7 +1,9 @@
+import { useDispatch, useSelector } from 'react-redux'
 import { AppBar, Grid, IconButton, Toolbar, Typography } from '@mui/material'
+import Swal from 'sweetalert2'
+import 'sweetalert2/dist/sweetalert2.css'
 import { LogoutOutlined, MenuOutlined } from '@mui/icons-material'
 import { startLogout } from '../../../components/store/auth/thunks'
-import { useDispatch, useSelector } from 'react-redux'
 
 
 const NavBar = ({ drawerWidth = 240 }) => {
@@ -12,7 +14,19 @@ const NavBar = ({ drawerWidth = 240 }) => {
     const dispatch = useDispatch();
 
     const handleLogout = () => {
-        dispatch(startLogout());
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you want to log out?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, I want to sign out!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(startLogout());
+            }
+        })
     }
 
     return (

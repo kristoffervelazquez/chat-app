@@ -1,10 +1,12 @@
 import { useSelector, useDispatch } from "react-redux"
+import { useCollection } from "react-firebase-hooks/firestore";
+import { collection } from "firebase/firestore";
 import validator from "validator";
+import Swal from 'sweetalert2'
+import 'sweetalert2/dist/sweetalert2.css'
 import { ChatOutlined, PersonAdd } from "@mui/icons-material"
 import { Box, Divider, Drawer, Grid, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material"
 import { addNewChat, setActiveChat } from "../../../components/store/chats/thunks";
-import { useCollection } from "react-firebase-hooks/firestore";
-import { collection } from "firebase/firestore";
 import { db } from "../../../firebase/firebaseConfig";
 
 
@@ -17,15 +19,41 @@ const SideBar = ({ drawerWidth = 240 }) => {
     const [snapshot, loading, error] = useCollection(collection(db, "chats"));
     const chats = snapshot?.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
+    const chatExists = mail => chats?.find(chat => (chat.users.includes(email) && chat.users.includes(mail)));
 
     const handleAddChat = () => {
-        const newUser = prompt('Type the email: ');
+        Swal.fire({
+            title: "Type the email and start chatting!",
+            input: 'text',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Add a friend',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (validator.isEmail(result.value)) {
+                    if (!chatExists(result.value) && result.value !== email) {
+                        dispatch(addNewChat(result.value));
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'You already have a chat with this person!',
+                        })
+                    }
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'This is not a valid email!',
+                    })
+                }
+            }
+        })
 
-        if (validator.isEmail(newUser)) {
-            dispatch(addNewChat(newUser));
-        } else {
-            console.log('ni de pedo')
-        }
+
+
 
     }
 

@@ -10,9 +10,9 @@ import { startCreateWithEmailAndPassword } from '../../components/store/auth/thu
 
 
 const formData = {
-    email: 'correo@correo.com',
-    password: 'CruzAzul56',
-    displayName: 'Kristoffer'
+    email: '',
+    password: '',
+    displayName: ''
 }
 const RegisterScreen = () => {
     const dispatch = useDispatch();

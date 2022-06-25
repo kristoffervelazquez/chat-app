@@ -16,8 +16,8 @@ const LoginScreen = () => {
 
     const dispatch = useDispatch()
     const { email, password, onInputChange } = useForm({
-        email: 'correo@correo.com',
-        password: 'CruzAzul56'
+        email: '',
+        password: ''
     });
 
     const isAuthenticating = useMemo(() => status === 'checking', [status]);
