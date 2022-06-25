@@ -92,20 +92,21 @@ const SideBar = ({ drawerWidth = 240 }) => {
                 <List>
                     {
                         chats &&
-                        chats.map(({ id, users }) => (
+                        chats?.filter(chat => chat.users.includes(email))
+                            .map(({ id, users }) => (
 
-                            <ListItemButton key={id} onClick={() => { handleClick(id, { username: displayUser(users) }) }}>
-                                <ListItemIcon>
-                                    <ChatOutlined />
-                                </ListItemIcon> {/* Imagen de la persona del chat */}
-                                <Grid container>
-                                    <ListItemText primary={displayUser(users)} />
-                                    {/* <ListItemText secondary={`${msg} ${time}`} /> */}
-                                </Grid>
-                            </ListItemButton>
+                                <ListItemButton key={id} onClick={() => { handleClick(id, { username: displayUser(users) }) }}>
+                                    <ListItemIcon>
+                                        <ChatOutlined />
+                                    </ListItemIcon> {/* Imagen de la persona del chat */}
+                                    <Grid container>
+                                        <ListItemText primary={displayUser(users)} />
+                                        {/* <ListItemText secondary={`${msg} ${time}`} /> */}
+                                    </Grid>
+                                </ListItemButton>
 
 
-                        ))
+                            ))
                     }
                 </List>
             </Drawer>
