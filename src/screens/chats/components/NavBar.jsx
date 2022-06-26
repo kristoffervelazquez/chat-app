@@ -1,17 +1,25 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { AppBar, Grid, IconButton, Toolbar, Typography } from '@mui/material'
+import validator from "validator";
 import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.css'
-import { LogoutOutlined, MenuOutlined } from '@mui/icons-material'
+import { useCollection } from "react-firebase-hooks/firestore";
+import { collection } from "firebase/firestore";
+import { LogoutOutlined, MenuOutlined, PersonAdd } from '@mui/icons-material'
 import { startLogout } from '../../../components/store/auth/thunks'
+import { addNewChat } from '../../../components/store/chats/thunks';
+import { db } from '../../../firebase/firebaseConfig';
 
 
-const NavBar = ({ drawerWidth = 240 }) => {
-
-
-    const { active } = useSelector(state => state.chats)
+const NavBar = ({ drawerWidth, setDisplayMenu }) => {
 
     const dispatch = useDispatch();
+    const { active } = useSelector(state => state.chats)
+    const { email } = useSelector(state => state.auth)
+    const [snapshot] = useCollection(collection(db, "chats"));
+    const chats = snapshot?.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+
 
     const handleLogout = () => {
         Swal.fire({
@@ -27,6 +35,46 @@ const NavBar = ({ drawerWidth = 240 }) => {
                 dispatch(startLogout());
             }
         })
+    }
+
+    const chatExists = mail => chats?.find(chat => (chat.users.includes(email) && chat.users.includes(mail)));
+
+
+    const handleAddChat = () => {
+        setDisplayMenu(false)
+        Swal.fire({
+            title: "Type the email and start chatting!",
+            input: 'text',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Add a friend',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (validator.isEmail(result.value)) {
+                    if (!chatExists(result.value) && result.value !== email) {
+                        dispatch(addNewChat(result.value));
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'You already have a chat with this person!',
+                        })
+                    }
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'This is not a valid email!',
+                    })
+                }
+            }
+        })
+
+
+
+
     }
 
     return (
@@ -47,14 +95,24 @@ const NavBar = ({ drawerWidth = 240 }) => {
                 </IconButton>
 
                 <Grid container direction='row' justifyContent='space-between' alignItems='center'>
+                    <IconButton onClick={() => { setDisplayMenu(true) }} color='warning'>
+                        <MenuOutlined />
+                    </IconButton>
                     {
                         active &&
                         <Typography variant='h6' noWrap component='div'> {active.chat.username} </Typography>
                     }
 
-                    <IconButton onClick={handleLogout} color='error'>
-                        <LogoutOutlined />
-                    </IconButton>
+
+                    <Grid>
+                        <IconButton onClick={handleAddChat} color='warning'>
+                            <PersonAdd />
+                        </IconButton>
+
+                        <IconButton onClick={handleLogout} color='error'>
+                            <LogoutOutlined />
+                        </IconButton>
+                    </Grid>
 
                 </Grid>
 
