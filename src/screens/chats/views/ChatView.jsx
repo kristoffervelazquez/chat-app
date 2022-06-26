@@ -8,7 +8,6 @@ import { FileUploadTwoTone } from "@mui/icons-material";
 import { db } from "../../../firebase/firebaseConfig";
 import { useSelector } from "react-redux";
 import './Chat.css';
-import moment from "moment";
 
 
 
