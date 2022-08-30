@@ -43,34 +43,32 @@ const SideBar = ({ drawerWidth, displayMenu, setDisplayMenu }) => {
             >
 
                 <Toolbar>
-                    <IconButton sx={{ml: -2}} onClick={() => {setDisplayMenu(false)}} >
+                    <IconButton sx={{ ml: -2 }} onClick={() => { setDisplayMenu(false) }} >
                         <ArrowBack />
                     </IconButton>
                     <Typography variant='h6' noWrap component='div'>{displayName}</Typography>
 
                 </Toolbar>
                 <Divider />
+                {
+                    <List>
+                        {
+                            chats?.filter(chat => chat.users.includes(email))
+                                .map(({ id, users }) => (
 
-                <List>
-                    {
-                        chats &&
-                        chats?.filter(chat => chat.users.includes(email))
-                            .map(({ id, users }) => (
-
-                                <ListItemButton key={id} onClick={() => { handleClick(id, { username: displayUser(users) }) }}>
-                                    <ListItemIcon>
-                                        <ChatOutlined />
-                                    </ListItemIcon> {/* Imagen de la persona del chat */}
-                                    <Grid container>
-                                        <ListItemText primary={displayUser(users)} />
-                                        {/* <ListItemText secondary={`${msg} ${time}`} /> */}
-                                    </Grid>
-                                </ListItemButton>
-
-
-                            ))
-                    }
-                </List>
+                                    <ListItemButton key={id} onClick={() => { handleClick(id, { username: displayUser(users) }) }}>
+                                        <ListItemIcon>
+                                            <ChatOutlined />
+                                        </ListItemIcon> {/* Imagen de la persona del chat */}
+                                        <Grid container>
+                                            <ListItemText primary={displayUser(users)} />
+                                            {/* <ListItemText secondary={`${msg} ${time}`} /> */}
+                                        </Grid>
+                                    </ListItemButton>
+                                ))
+                        }
+                    </List>
+                }
             </Drawer>
         </Box>
     )

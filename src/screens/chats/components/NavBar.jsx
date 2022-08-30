@@ -5,9 +5,9 @@ import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.css'
 import { useCollection } from "react-firebase-hooks/firestore";
 import { collection } from "firebase/firestore";
-import { LogoutOutlined, MenuOutlined, PersonAdd } from '@mui/icons-material'
+import { CloseOutlined, LogoutOutlined, MenuOutlined, PersonAdd } from '@mui/icons-material'
 import { startLogout } from '../../../components/store/auth/thunks'
-import { addNewChat } from '../../../components/store/chats/thunks';
+import { addNewChat, closeActiveChat, setActiveChat } from '../../../components/store/chats/thunks';
 import { db } from '../../../firebase/firebaseConfig';
 
 
@@ -100,18 +100,30 @@ const NavBar = ({ drawerWidth, setDisplayMenu }) => {
                     </IconButton>
                     {
                         active &&
+
                         <Typography variant='h6' noWrap component='div'> {active.chat.username} </Typography>
+
+
                     }
 
 
                     <Grid>
-                        <IconButton onClick={handleAddChat} color='warning'>
-                            <PersonAdd />
-                        </IconButton>
+                        {
+                            active ?
+                                <IconButton color='info' onClick={() => { dispatch(closeActiveChat()) }}>
+                                    <CloseOutlined />
+                                </IconButton>
+                                :
+                                <>
+                                    <IconButton onClick={handleAddChat} color='warning'>
+                                        <PersonAdd />
+                                    </IconButton>
 
-                        <IconButton onClick={handleLogout} color='error'>
-                            <LogoutOutlined />
-                        </IconButton>
+                                    <IconButton onClick={handleLogout} color='error'>
+                                        <LogoutOutlined />
+                                    </IconButton>
+                                </>
+                        }
                     </Grid>
 
                 </Grid>

@@ -1,6 +1,6 @@
 import { addDoc, collection } from "firebase/firestore"
 import { db } from "../../../firebase/firebaseConfig"
-import { activeChat, newChat } from "./chatsSlice"
+import { activeChat, closeChat, newChat } from "./chatsSlice"
 
 
 
@@ -8,6 +8,12 @@ export const setActiveChat = (id, chat) => {
 
     return (dispatch) => {
         dispatch(activeChat({ id, chat }))
+    }
+}
+
+export const closeActiveChat = () => {
+    return(dispatch) => {
+        dispatch(closeChat());
     }
 }
 
@@ -20,6 +26,8 @@ export const addNewChat = (newUser) => {
         dispatch(newChat({ id: Date.now(), username: newUser, msg: 'xd', time: Date.now() }))
     }
 }
+
+
 
 
 // export const startLoadingChats = () => {

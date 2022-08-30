@@ -21,7 +21,7 @@ export const ChatLayout = ({ children }) => {
             <Box
                 component='main'
                 sx={{ flexGrow: 1, p: 3, ml: `${drawerWidth}px` }}
-                onClick={() => {console.log('first')}}
+                
             >
                 <Toolbar />
                 {children}
