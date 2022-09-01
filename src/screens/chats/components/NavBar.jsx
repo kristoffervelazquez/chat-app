@@ -101,7 +101,16 @@ const NavBar = ({ drawerWidth, setDisplayMenu }) => {
                     {
                         active &&
 
-                        <Typography variant='h6' noWrap component='div'> {active.chat.username} </Typography>
+                        <Grid item display={'flex'} flex={1} justifyContent='center'  flexDirection={'row'}>
+                            
+                            <Typography variant='h6' noWrap component='div'> {active.chat.username} </Typography>
+
+                            <Grid paddingLeft={10}>
+                                <IconButton onClick={() => {console.log('Añadir personas a un grupo');}} color='warning'>
+                                    <PersonAdd />
+                                </IconButton>
+                            </Grid>
+                        </Grid>
 
 
                     }
@@ -110,7 +119,7 @@ const NavBar = ({ drawerWidth, setDisplayMenu }) => {
                     <Grid>
                         {
                             active ?
-                                <IconButton color='info' onClick={() => { dispatch(closeActiveChat()) }}>
+                                <IconButton color='error' onClick={() => { dispatch(closeActiveChat()) }}>
                                     <CloseOutlined />
                                 </IconButton>
                                 :
