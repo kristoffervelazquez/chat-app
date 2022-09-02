@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { addDoc, collection, doc, limit, orderBy, query, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, doc, limit, limitToLast, orderBy, query, serverTimestamp } from "firebase/firestore";
 import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
 import { Avatar, Container, Divider, FormControl, Grid, IconButton, List, ListItem, ListItemText, Paper, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
@@ -19,18 +19,17 @@ const ChatView = () => {
     const [message, setMessage] = useState('');
     const { id } = active;
 
-    const q = query(collection(db, `chats/${id}/conversation`), orderBy("timestamp"));
+    const q = query(collection(db, `chats/${id}/conversation`), orderBy("timestamp"), limitToLast(100));
     const [conversation] = useCollectionData(q);
     const bottomOfChat = useRef();
-    const last24HoursMessages = conversation?.filter(msg => (msg.timestamp?.seconds) > ((Date.now() / 1000) - 86400))
-
-
-
+    // const last24HoursMessages = conversation?.filter(msg => (msg.timestamp?.seconds) > ((Date.now() / 1000) - 86400))
+    
+    
 
 
     const getMessages = () =>
 
-        last24HoursMessages?.map(msg => {
+        conversation?.map(msg => {
             const sender = msg.sender === displayName;
             return (
                 <Grid key={Math.random()} >
