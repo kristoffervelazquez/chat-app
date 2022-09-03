@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { addDoc, collection, doc, limit, limitToLast, orderBy, query, serverTimestamp } from "firebase/firestore";
 import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
-import { Avatar, Container, Divider, FormControl, Grid, IconButton, List, ListItem, ListItemText, Paper, TextField, Typography } from "@mui/material";
+import { Avatar, Container, Divider, FormControl, Grid, IconButton, List, ListItem,  TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import SendIcon from '@mui/icons-material/Send';
 import { FileUploadTwoTone } from "@mui/icons-material";
