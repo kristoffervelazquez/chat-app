@@ -13,26 +13,32 @@ const MainView = () => {
             direction="column"
             alignItems="center"
             justifyContent="center"
-            sx={{ minHeight: 'calc(100vh - 110px)', backgroundColor: 'primary.main', padding: 4, borderRadius: 3 }}
+            sx={{ minHeight: 'calc(100vh - 110px)', backgroundColor: 'primary.main', padding: 3, borderRadius: 3 }}
+
         >
-            <Grid container flexDirection={'row'} display={'flex'} flex={1} borderRadius={3} backgroundColor={''} padding={4} marginRight={2}>
+            <Grid container flexDirection={'row'} display={'flex'} flex={1} justifyContent={'space-between'} borderRadius={3} backgroundColor={''} padding={4} marginRight={2}>
 
-                <Grid container sx={{ backgroundColor: '#03dac5', display: 'flex', flex: 2 }} borderRadius={10} >
+                <Grid container sx={{ backgroundColor: '#03dac5' }} borderRadius={6} xs={12} sm={3} md={3}>
 
-                    <Grid item padding={4}>
+                    <Grid item padding={4} overflow='hidden'>
                         <Button onClick={() => { console.log('click'); }} variant='contained' fullWidth>
-                            <Typography sx={{ ml: 1 }} variant="div">Proximamente...</Typography>
+                            <Typography noWrap sx={{ ml: 1 }} variant="div">Proximamente...</Typography>
+                        </Button>
+                    </Grid>
+
+                </Grid>
+
+                <Grid container sx={{ backgroundColor: 'secondary.main' }} borderRadius={10} xs={12} sm={8} md={8}>
+                    <Grid item padding={4} overflow='hidden'>
+                        <Button onClick={() => { console.log('click'); }} variant='contained' fullWidth>
+                            <Typography noWrap sx={{ ml: 1 }} variant="div">Proximamente...</Typography>
                         </Button>
                     </Grid>
                 </Grid>
 
-                <Grid container sx={{ backgroundColor: 'secondary.main', display: 'flex', flex: 3 }} borderRadius={10} marginLeft={5}>
-                    <Grid item padding={4}>
-                        <Button onClick={() => { console.log('click'); }} variant='contained' fullWidth>
-                            <Typography sx={{ ml: 1 }} variant="div">Proximamente...</Typography>
-                        </Button>
-                    </Grid>
-                </Grid>
+
+
+
             </Grid>
 
         </Grid>
