@@ -16,7 +16,7 @@ const MainView = () => {
             sx={{ minHeight: 'calc(100vh - 110px)', backgroundColor: 'primary.main', padding: 3, borderRadius: 3 }}
 
         >
-            <Grid container flexDirection={'row'} display={'flex'} flex={1} justifyContent={'space-between'} borderRadius={3} backgroundColor={''} padding={4} marginRight={2}>
+            <Grid container flexDirection={'row'} display={'flex'} flex={1} justifyContent={'space-evenly'} borderRadius={3} backgroundColor={''} padding={4} marginRight={2}>
 
                 <Grid container justifyContent={'center'} alignItems='center' sx={{ backgroundColor: '#03dac5' }} borderRadius={10} xs={12} sm={3} md={3}>
 
