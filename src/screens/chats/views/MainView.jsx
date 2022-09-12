@@ -18,7 +18,7 @@ const MainView = () => {
         >
             <Grid container flexDirection={'row'} display={'flex'} flex={1} justifyContent={'space-between'} borderRadius={3} backgroundColor={''} padding={4} marginRight={2}>
 
-                <Grid container sx={{ backgroundColor: '#03dac5' }} borderRadius={6} xs={12} sm={3} md={3}>
+                <Grid container justifyContent={'center'} alignItems='center' sx={{ backgroundColor: '#03dac5' }} borderRadius={10} xs={12} sm={3} md={3}>
 
                     <Grid item padding={4} overflow='hidden'>
                         <Button onClick={() => { console.log('click'); }} variant='contained' fullWidth>
@@ -28,7 +28,7 @@ const MainView = () => {
 
                 </Grid>
 
-                <Grid container sx={{ backgroundColor: 'secondary.main' }} borderRadius={10} xs={12} sm={8} md={8}>
+                <Grid container justifyContent={'center'} alignItems='center' sx={{ backgroundColor: 'secondary.main' }} borderRadius={10} xs={12} sm={8} md={8}>
                     <Grid item padding={4} overflow='hidden'>
                         <Button onClick={() => { console.log('click'); }} variant='contained' fullWidth>
                             <Typography noWrap sx={{ ml: 1 }} variant="div">Proximamente...</Typography>
