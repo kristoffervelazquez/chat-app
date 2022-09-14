@@ -3,6 +3,7 @@ import { Avatar, Badge, Grid, ListItem, Typography } from '@mui/material'
 import React from 'react'
 
 const MainHome = ({ username, photoURL }) => {
+    
     return (
         <Grid container padding={2} rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} borderRadius={10}>
             <Grid item xs={12} backgroundColor=''>
@@ -14,7 +15,7 @@ const MainHome = ({ username, photoURL }) => {
                         badgeContent={''}
                         color='green'
                     >
-                        <Avatar sx={{ width: 150, height: 150 }} variant="circular" src={photoURL} />
+                        <Avatar sx={{ width: 150, height: 150 }} variant="circular" src={photoURL.toString()} />
 
                     </Badge>
                     <Typography variant="h2"  sx={{ fontFamily: 'monospace', ml: 1 }}>

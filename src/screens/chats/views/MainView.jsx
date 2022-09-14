@@ -75,7 +75,7 @@ const MainView = () => {
 
         >
 
-            <Grid item sx={{'@media (max-width: 750px)' : {flexDirection: 'column'}}} display={'flex'} flex={1} justifyContent={'space-evenly'} borderRadius={3} backgroundColor={''} padding={4} marginRight={2}>
+            <Grid item sx={{'@media (max-width: 800px)' : {flexDirection: 'column' }}} display={'flex'} flex={1} justifyContent={'space-evenly'} borderRadius={3} backgroundColor={''} padding={4} marginRight={2}>
 
 
                 <Grid item flex={1} display='flex' justifyContent={'center'} sx={{ backgroundColor: 'secondary.main' }} borderRadius={10} xs={12} sm={12} md={7}>
