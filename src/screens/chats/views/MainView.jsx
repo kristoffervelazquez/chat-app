@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { PersonAdd } from '@mui/icons-material';
 import MainHome from './components/MainHome';
+import userExist from '../../../helpers/userExist';
+import { async } from '@firebase/util';
 
 
 
@@ -17,10 +19,9 @@ import MainHome from './components/MainHome';
 const MainView = () => {
 
     const dispatch = useDispatch();
-    const { email, displayName, photoURL, uid } = useSelector(state => state.auth)
+    const { email, displayName, photoURL, uid, friends } = useSelector(state => state.auth)
     const [snapshot] = useCollection(collection(db, "chats"));
     const chats = snapshot?.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
 
     const chatExists = mail => chats?.find(chat => (chat.users.includes(email) && chat.users.includes(mail)));
 
@@ -60,6 +61,52 @@ const MainView = () => {
 
     }
 
+    const handleAddFriend = async () => {
+
+        Swal.fire({
+            title: "Type the friend code!",
+            input: 'text',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Add a friend',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const usuarioExiste = await userExist(result.value)
+
+                if (friends.includes(result.value)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'You already have a friendship with this user!',
+                    })
+                    return;
+                }
+
+                if (usuarioExiste) {
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Friend request sended',
+                        text: 'Your firend request has been submited!',
+                    })
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'This is not a valid friend code!',
+                    })
+
+                }
+
+
+            }
+        })
+
+
+    }
+
 
 
 
@@ -75,12 +122,12 @@ const MainView = () => {
 
         >
 
-            <Grid item sx={{'@media (max-width: 800px)' : {flexDirection: 'column' }}} display={'flex'} flex={1} justifyContent={'space-evenly'} borderRadius={3} backgroundColor={''} padding={4} marginRight={2}>
+            <Grid item sx={{ '@media (max-width: 800px)': { flexDirection: 'column' } }} display={'flex'} flex={1} justifyContent={'space-evenly'} borderRadius={3} backgroundColor={''} padding={4} marginRight={2}>
 
 
                 <Grid item flex={1} display='flex' justifyContent={'center'} sx={{ backgroundColor: 'secondary.main' }} borderRadius={10} xs={12} sm={12} md={7}>
                     <Grid container flexWrap={'wrap'} overflow='hidden' >
-                        <MainHome username={displayName} photoURL={photoURL} uid={uid}/>
+                        <MainHome username={displayName} photoURL={photoURL} uid={uid} />
                     </Grid>
                 </Grid>
 
@@ -89,7 +136,7 @@ const MainView = () => {
 
                         <Grid container spacing={1} direction={'row'} alignItems='center' >
                             <Grid item xs={6}>
-                                <SquareButton text={'Edit profile'} color='aqua' />
+                                <SquareButton text={'Friend code'} color='aqua' callback={handleAddFriend} />
                             </Grid>
                             <Grid item xs={6}>
                                 <SquareButton text={'Add a friend'} color='aqua' callback={() => { handleAddChat() }} Icon={() => <PersonAdd color='warning' />} />

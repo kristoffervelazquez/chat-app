@@ -22,7 +22,7 @@ export const startGoogleSignIn = () => {
 
         if (result.ok) {
             await dispatch(login(result));
-            await dispatch(createUserDocument());
+            await dispatch(createUserDocument(result));
         }
 
 
@@ -39,8 +39,8 @@ export const startCreateWithEmailAndPassword = ({ email, password, displayName }
 
         if (!ok) return dispatch(logout({ errorMessage }));
 
-        dispatch(login(email, password, displayName, photoURL, uid));
-        await dispatch(createUserDocument());
+        await dispatch(login(email, password, displayName, photoURL, uid));
+        await dispatch(createUserDocument({ email, password, displayName, photoURL, uid }));
 
     }
 };
@@ -78,19 +78,21 @@ export const startLoadingFriends = (uid) => {
 
 // Create user document: 
 
-export const createUserDocument = () => {
-    return async (dispatch, getState) => {
-        const user = getState().auth;
+export const createUserDocument = async (user) => {
+    return async () => {
+        const { email, displayName, photoURL, uid } = await user;
 
         const userInformation = {
-            id: user.uid,
-            name: user.displayName,
-            picture: user.photoURL,
-            email: user.email,
+            id: uid,
+            name: displayName,
+            picture: photoURL,
+            email: email,
             friends: []
         }
 
-        const q = query(collection(db, 'users'), where('id', '==', user.uid),)
+        console.log(userInformation)
+
+        const q = query(collection(db, 'users'), where('id', '==', uid),)
         const documento = await getDocs(q);
 
         if (documento.size <= 0) {
@@ -98,8 +100,9 @@ export const createUserDocument = () => {
         } else {
             console.log(documento.docs[0].data())
         }
-
     }
+
+
 }
 
 

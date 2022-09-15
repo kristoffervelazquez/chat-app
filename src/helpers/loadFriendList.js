@@ -6,7 +6,9 @@ export const loadFriendList = async (uid) => {
     const friendListSnap = await getDocs(q);
     const friends = [];
 
-    friends.push(friendListSnap.docs[0].data().friends)
+    if (friendListSnap.size > 0) {
+        friends.push(...friendListSnap.docs[0].data().friends)
+    }
 
     return friends;
 }
