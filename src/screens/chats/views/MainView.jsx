@@ -17,7 +17,7 @@ import MainHome from './components/MainHome';
 const MainView = () => {
 
     const dispatch = useDispatch();
-    const { email, displayName, photoURL } = useSelector(state => state.auth)
+    const { email, displayName, photoURL, uid } = useSelector(state => state.auth)
     const [snapshot] = useCollection(collection(db, "chats"));
     const chats = snapshot?.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
@@ -80,7 +80,7 @@ const MainView = () => {
 
                 <Grid item flex={1} display='flex' justifyContent={'center'} sx={{ backgroundColor: 'secondary.main' }} borderRadius={10} xs={12} sm={12} md={7}>
                     <Grid container flexWrap={'wrap'} overflow='hidden' >
-                        <MainHome username={displayName} photoURL={photoURL}/>
+                        <MainHome username={displayName} photoURL={photoURL} uid={uid}/>
                     </Grid>
                 </Grid>
 

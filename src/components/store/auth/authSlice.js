@@ -8,7 +8,8 @@ export const authSlice = createSlice({
         email: null,
         displayName: null,
         photoURL: null,
-        errorMessage: null
+        errorMessage: null,
+        friends: null
     },
     reducers: {
         login: (state, { payload }) => {
@@ -29,10 +30,13 @@ export const authSlice = createSlice({
         },
         checkingCredentials: (state) => {
             state.status = 'checking'
+        },
+        loadFriends: (state, {payload}) => {
+            state.friends = payload;
         }
 
     }
 })
 
 
-export const { login, logout, checkingCredentials } = authSlice.actions;
+export const { login, logout, checkingCredentials, loadFriends } = authSlice.actions;
