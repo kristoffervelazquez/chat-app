@@ -2,7 +2,7 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import SquareButton from '../components/SquareButton';
 import validator from "validator";
-import { addNewChat, startLoadingChats } from '../../../components/store/chats/thunks';
+import { addNewChat, startLoadingChats, startLoadingConversation } from '../../../components/store/chats/thunks';
 import { useCollection } from "react-firebase-hooks/firestore";
 import { collection } from "firebase/firestore";
 import { db } from '../../../firebase/firebaseConfig';
@@ -146,7 +146,7 @@ const MainView = () => {
 
                         <Grid container spacing={2} direction={'column'} paddingY={5}>
                             <Grid item>
-                                <SquareButton text={'Boton'} color='aqua' callback={() => dispatch(startLoadingChats(email))} />
+                                <SquareButton text={'Boton'} color='aqua' callback={() => dispatch(startLoadingConversation())} />
                             </Grid>
                             <Grid item>
                                 <SquareButton text={'Boton'} color='aqua' />

@@ -1,7 +1,7 @@
-import { addDoc, collection, onSnapshot, query, where } from "firebase/firestore"
+import { addDoc, collection, limitToLast, onSnapshot, orderBy, query, where } from "firebase/firestore"
 import { db } from "../../../firebase/firebaseConfig"
 // import loadChatList from "../../../helpers/loadChatList"
-import { activeChat, closeChat, loadChats, newChat } from "./chatsSlice"
+import { activeChat, closeChat, loadChats, loadConversation, newChat } from "./chatsSlice"
 
 
 
@@ -32,12 +32,14 @@ export const addNewChat = (newUser) => {
 
 
 export const startLoadingChats = (email) => {
-    return async (dispatch, getState) => {
-        
+    return async (dispatch) => {
+
+
         const q = query(collection(db, "chats"), where("users", "array-contains", email))
 
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             querySnapshot.forEach((doc) => {
+
 
                 dispatch(loadChats({ id: doc.id, data: doc.data() }));
 
@@ -46,4 +48,34 @@ export const startLoadingChats = (email) => {
         });
 
     }
+}
+
+
+export const startLoadingConversation = () => {
+    return async (dispatch, getState) => {
+        const { chats } = await getState().chats;
+
+        chats.forEach(chat => {
+            const q = query(collection(db, `chats/${chat.id}/conversation`), orderBy("timestamp"), limitToLast(100));
+
+            const unsub = onSnapshot(q, docs => {
+                let conversation = [];
+                docs.forEach(doc => {
+                    const information = {
+                        id: doc.id,
+                        message: doc.data().message,
+                        senderPhoto: doc.data().senderPhoto,
+                        sender: doc.data().sender,
+                        timestamp: doc.data().timestamp.seconds ? doc.data().timestamp.seconds : Date.now()
+                    }
+
+                    conversation = [...conversation, information];
+
+                });
+                dispatch(loadConversation({ id: chat.id, conversation: conversation }))
+            })
+        })
+    }
+
+
 }

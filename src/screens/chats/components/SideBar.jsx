@@ -16,6 +16,7 @@ const SideBar = ({ drawerWidth, displayMenu, setDisplayMenu }) => {
     // const [snapshot] = useCollection(collection(db, "chats"));
     // const chats = snapshot?.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
+    // console.log(chats[0].conversation[chats[0].conversation.length-1].message);
 
 
     const handleClick = (id, chat) => {
@@ -25,6 +26,12 @@ const SideBar = ({ drawerWidth, displayMenu, setDisplayMenu }) => {
 
     const displayUser = (users) => {
         return users.filter(user => user !== email);
+    }
+
+    const getDate = (date) => {
+        const fecha = new Date(date);
+
+        return fecha
     }
 
 
@@ -53,9 +60,10 @@ const SideBar = ({ drawerWidth, displayMenu, setDisplayMenu }) => {
                 {
                     <List sx={{ width: '100%', maxWidth: 240, overflow: 'hidden', scrollbarWidth: 'none', overflowY: 'scroll', }}>
                         {
-                            chats?.map(({ id, data }) => (
+                            chats?.map(({ id, data, conversation }, idx) => (
+                                conversation &&
                                 <div key={id}>
-                                    <ListItemButton alignItems="flex-start"  onClick={() => { handleClick(id, { username: displayUser(data.users) }) }}>
+                                    <ListItemButton alignItems="flex-start" onClick={() => { handleClick(id, { username: displayUser(data.users) }) }}>
                                         <ListItemAvatar>
                                             <Avatar alt={displayUser(data.users)[0].toUpperCase()} src="{image}" />
                                         </ListItemAvatar>
@@ -78,9 +86,19 @@ const SideBar = ({ drawerWidth, displayMenu, setDisplayMenu }) => {
                                                         variant="body2"
                                                         color="text.primary"
                                                     >
-                                                        LastSender
+                                                        {/* LastSender */}
+                                                        {
+                                                            conversation &&
+                                                            conversation.length > 0 &&
+                                                            `${conversation[conversation.length - 1].sender}: `
+
+                                                        }
+
                                                     </Typography>
-                                                    {" — Last message......"}
+                                                    {
+                                                        conversation.length > 0 &&
+                                                        `${conversation[conversation.length - 1].message} ${getDate(conversation[conversation.length - 1].timestamp)} `
+                                                    }
                                                 </>
                                             }
                                         />
