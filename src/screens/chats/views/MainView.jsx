@@ -2,7 +2,7 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import SquareButton from '../components/SquareButton';
 import validator from "validator";
-import { addNewChat } from '../../../components/store/chats/thunks';
+import { addNewChat, startLoadingChats } from '../../../components/store/chats/thunks';
 import { useCollection } from "react-firebase-hooks/firestore";
 import { collection } from "firebase/firestore";
 import { db } from '../../../firebase/firebaseConfig';
@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 import { PersonAdd } from '@mui/icons-material';
 import MainHome from './components/MainHome';
 import userExist from '../../../helpers/userExist';
-import { async } from '@firebase/util';
+
 
 
 
@@ -146,7 +146,7 @@ const MainView = () => {
 
                         <Grid container spacing={2} direction={'column'} paddingY={5}>
                             <Grid item>
-                                <SquareButton text={'Boton'} color='aqua' />
+                                <SquareButton text={'Boton'} color='aqua' callback={() => dispatch(startLoadingChats(email))} />
                             </Grid>
                             <Grid item>
                                 <SquareButton text={'Boton'} color='aqua' />

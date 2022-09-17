@@ -1,6 +1,7 @@
-import { addDoc, collection } from "firebase/firestore"
+import { addDoc, collection, onSnapshot, query, where } from "firebase/firestore"
 import { db } from "../../../firebase/firebaseConfig"
-import { activeChat, closeChat, newChat } from "./chatsSlice"
+// import loadChatList from "../../../helpers/loadChatList"
+import { activeChat, closeChat, loadChats, newChat } from "./chatsSlice"
 
 
 
@@ -12,7 +13,7 @@ export const setActiveChat = (id, chat) => {
 }
 
 export const closeActiveChat = () => {
-    return(dispatch) => {
+    return (dispatch) => {
         dispatch(closeChat());
     }
 }
@@ -23,19 +24,26 @@ export const addNewChat = (newUser) => {
         const user = getState().auth;
 
         await addDoc(collection(db, 'chats'), { users: [user.email, newUser] });
-        dispatch(newChat({ id: Date.now(), username: newUser, msg: 'xd', time: Date.now() }))
+        // dispatch(newChat({ id: Date.now(), username: newUser, msg: 'xd', time: Date.now() }))
     }
 }
 
 
 
 
-// export const startLoadingChats = () => {
-//     return async (dispatch, getState) => {
-//         const user = getState().auth;
-//         const [snapshot, loading, error] = useCollection(collection(db, "chats"))
-//         const chats = snapshot?.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+export const startLoadingChats = (email) => {
+    return async (dispatch, getState) => {
+        
+        const q = query(collection(db, "chats"), where("users", "array-contains", email))
 
-//         console.log(chats)
-//     }
-// }
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+
+                dispatch(loadChats({ id: doc.id, data: doc.data() }));
+
+            });
+
+        });
+
+    }
+}

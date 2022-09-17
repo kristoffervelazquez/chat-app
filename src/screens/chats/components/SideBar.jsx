@@ -12,9 +12,9 @@ const SideBar = ({ drawerWidth, displayMenu, setDisplayMenu }) => {
 
     const dispatch = useDispatch()
     const { displayName, email } = useSelector(state => state.auth);
-
-    const [snapshot] = useCollection(collection(db, "chats"));
-    const chats = snapshot?.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    const { chats } = useSelector(state => state.chats);
+    // const [snapshot] = useCollection(collection(db, "chats"));
+    // const chats = snapshot?.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
 
 
@@ -51,54 +51,44 @@ const SideBar = ({ drawerWidth, displayMenu, setDisplayMenu }) => {
                 </Toolbar>
                 <Divider />
                 {
-                    <List sx={{ width: '100%', maxWidth: 240, overflow:'hidden', scrollbarWidth: 'none', overflowY: 'scroll', }}>
+                    <List sx={{ width: '100%', maxWidth: 240, overflow: 'hidden', scrollbarWidth: 'none', overflowY: 'scroll', }}>
                         {
-                            chats?.filter(chat => chat.users.includes(email))
-                                .map(({ id, users }) => (
-                                    <>
-                                        <ListItemButton alignItems="flex-start" key={id} onClick={() => { handleClick(id, { username: displayUser(users) }) }}>
-                                            <ListItemAvatar>
-                                                <Avatar alt={displayUser(users)[0].toUpperCase()} src="{image}" />
-                                            </ListItemAvatar>
-                                            <ListItemText
-                                                primary={
+                            chats?.map(({ id, data }) => (
+                                <div key={id}>
+                                    <ListItemButton alignItems="flex-start"  onClick={() => { handleClick(id, { username: displayUser(data.users) }) }}>
+                                        <ListItemAvatar>
+                                            <Avatar alt={displayUser(data.users)[0].toUpperCase()} src="{image}" />
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            primary={
+                                                <Typography
+                                                    sx={{ display: 'inline' }}
+                                                    component="span"
+                                                    variant="body1"
+                                                    color="text.primary"
+                                                >
+                                                    {displayUser(data.users)}
+                                                </Typography>
+                                            }
+                                            secondary={
+                                                <>
                                                     <Typography
                                                         sx={{ display: 'inline' }}
                                                         component="span"
-                                                        variant="body1"
+                                                        variant="body2"
                                                         color="text.primary"
                                                     >
-                                                        {displayUser(users)}
+                                                        LastSender
                                                     </Typography>
-                                                }
-                                                secondary={
-                                                    <>
-                                                        <Typography
-                                                            sx={{ display: 'inline' }}
-                                                            component="span"
-                                                            variant="body2"
-                                                            color="text.primary"
-                                                        >
-                                                            LastSender
-                                                        </Typography>
-                                                        {" — Last message......"}
-                                                    </>
-                                                }
-                                            />
-                                        </ListItemButton>
-                                        <Divider variant="inset" component="li" />
-                                    </>
+                                                    {" — Last message......"}
+                                                </>
+                                            }
+                                        />
+                                    </ListItemButton>
+                                    <Divider variant="inset" component="li" />
+                                </div>
 
-                                    // <ListItemButton key={id} onClick={() => { handleClick(id, { username: displayUser(users) }) }}>
-                                    //     <ListItemIcon>
-                                    //         <ChatOutlined />
-                                    //     </ListItemIcon> {/* Imagen de la persona del chat */}
-                                    //     <Grid container>
-                                    //         <ListItemText primary={displayUser(users)} />
-                                    //         {/* <ListItemText secondary={`${msg} ${time}`} /> */}
-                                    //     </Grid>
-                                    // </ListItemButton>
-                                ))
+                            ))
                         }
                     </List>
                 }
@@ -108,3 +98,12 @@ const SideBar = ({ drawerWidth, displayMenu, setDisplayMenu }) => {
 }
 
 export default SideBar
+// <ListItemButton key={id} onClick={() => { handleClick(id, { username: displayUser(users) }) }}>
+//     <ListItemIcon>
+//         <ChatOutlined />
+//     </ListItemIcon> {/* Imagen de la persona del chat */}
+//     <Grid container>
+//         <ListItemText primary={displayUser(users)} />
+//         {/* <ListItemText secondary={`${msg} ${time}`} /> */}
+//     </Grid>
+// </ListItemButton>

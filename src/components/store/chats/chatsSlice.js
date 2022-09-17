@@ -15,7 +15,13 @@ export const chatSlice = createSlice({
             state.chats = [payload, ...state.chats];
         },
         loadChats: (state, { payload }) => {
-            state.chats = [payload, ...state.chats];
+            
+            if (state.chats.some(e => e.id === payload.id)) {
+                return;
+            }
+            state.chats = [...state.chats, payload];
+            
+
         },
         closeChat: (state) => {
             state.active = null;
@@ -24,4 +30,4 @@ export const chatSlice = createSlice({
 })
 
 
-export const { activeChat, newChat, closeChat } = chatSlice.actions;
+export const { activeChat, newChat, closeChat, loadChats } = chatSlice.actions;
