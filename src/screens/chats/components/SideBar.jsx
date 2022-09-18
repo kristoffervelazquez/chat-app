@@ -1,10 +1,9 @@
 import { useSelector, useDispatch } from "react-redux"
-import { useCollection } from "react-firebase-hooks/firestore";
-import { collection } from "firebase/firestore";
-import { ArrowBack, ChatOutlined } from "@mui/icons-material"
+import { ArrowBack } from "@mui/icons-material"
 import { Box, Divider, Drawer, Grid, ListItemButton, List, ListItemIcon, ListItemText, Toolbar, Typography, IconButton, ListItemAvatar, Avatar } from "@mui/material"
 import { setActiveChat } from "../../../components/store/chats/thunks";
-import { db } from "../../../firebase/firebaseConfig";
+import { Timestamp } from "firebase/firestore";
+
 
 
 
@@ -28,11 +27,12 @@ const SideBar = ({ drawerWidth, displayMenu, setDisplayMenu }) => {
         return users.filter(user => user !== email);
     }
 
-    const getDate = (date) => {
-        const fecha = new Date(date);
-
-        return fecha
+    const handleDate = (date) => {
+        const fecha = new Date(date * 1000)
+        return `${fecha.toLocaleString()}`;
     }
+
+
 
 
     return (
@@ -97,7 +97,7 @@ const SideBar = ({ drawerWidth, displayMenu, setDisplayMenu }) => {
                                                     </Typography>
                                                     {
                                                         conversation.length > 0 &&
-                                                        `${conversation[conversation.length - 1].message} ${getDate(conversation[conversation.length - 1].timestamp)} `
+                                                        `${conversation[conversation.length - 1].message} ${handleDate(conversation[conversation.length - 1].timestamp)} `
                                                     }
                                                 </>
                                             }

@@ -15,7 +15,7 @@ const MainHome = ({ username, photoURL, uid }) => {
                         badgeContent={''}
                         color='green'
                     >
-                        <Avatar sx={{ width: 150, height: 150 }} variant="circular" src={photoURL && photoURL.toString()} />
+                        <Avatar sx={{ width: 150, height: 150 }} variant="circular" src={photoURL} />
 
                     </Badge>
                     <Typography variant="h2" sx={{ fontFamily: 'monospace', ml: 1 }}>
