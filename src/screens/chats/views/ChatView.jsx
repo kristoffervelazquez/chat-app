@@ -14,14 +14,18 @@ import './Chat.css';
 
 const ChatView = () => {
 
-    const { active } = useSelector(state => state.chats);
+    const { active, chats } = useSelector(state => state.chats);
     const { displayName, photoURL } = useSelector(state => state.auth);
     const [message, setMessage] = useState('');
     const { id } = active;
-
-    const q = query(collection(db, `chats/${id}/conversation`), orderBy("timestamp"), limitToLast(100));
-    const [conversation] = useCollectionData(q);
+    const index = chats.map(chat => chat.id).indexOf(active.id);
+   
+    const conversation = chats[index].conversation;
     const bottomOfChat = useRef();
+
+
+    // const q = query(collection(db, `chats/${id}/conversation`), orderBy("timestamp"), limitToLast(100));
+    // const [conversation] = useCollectionData(q);
     // const last24HoursMessages = conversation?.filter(msg => (msg.timestamp?.seconds) > ((Date.now() / 1000) - 86400))
     
     
@@ -36,7 +40,6 @@ const ChatView = () => {
                     <ListItem sx={{ display: 'flex', maxWidth: 'fit-content', fontSize: '20px', background: sender ? 'green' : '#304D63', mb: 1, borderRadius: '20px', marginRight: sender && '0px', marginLeft: sender && 'auto' }}>
                         <Avatar variant="circular" src={msg.senderPhoto} />
                         <Typography sx={{ ml: '10px', fontWeight: 'thin' }} variant="p">{msg.message}</Typography>
-
                     </ListItem>
                 </Grid>
             );
