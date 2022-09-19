@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import { PersonAdd } from '@mui/icons-material';
 import MainHome from './components/MainHome';
 import userExist from '../../../helpers/userExist';
+import addFriend from '../../../helpers/addFriend';
 
 
 
@@ -146,7 +147,7 @@ const MainView = () => {
 
                         <Grid container spacing={2} direction={'column'} paddingY={5}>
                             <Grid item>
-                                <SquareButton text={'Boton'} color='aqua' callback={() => dispatch(startLoadingConversation())} />
+                                <SquareButton text={'Boton'} color='aqua' callback={() => addFriend(uid, friends, '0000')} />
                             </Grid>
                             <Grid item>
                                 <SquareButton text={'Boton'} color='aqua' />
