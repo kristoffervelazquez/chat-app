@@ -3,6 +3,8 @@ import { ArrowBack } from "@mui/icons-material"
 import { Box, Divider, Drawer, Grid, ListItemButton, List, ListItemIcon, ListItemText, Toolbar, Typography, IconButton, ListItemAvatar, Avatar } from "@mui/material"
 import { setActiveChat } from "../../../components/store/chats/thunks";
 import { Timestamp } from "firebase/firestore";
+import { useEffect } from "react";
+import { useState } from "react";
 
 
 
@@ -12,10 +14,7 @@ const SideBar = ({ drawerWidth, displayMenu, setDisplayMenu }) => {
     const dispatch = useDispatch()
     const { displayName, email } = useSelector(state => state.auth);
     const { chats } = useSelector(state => state.chats);
-    // const [snapshot] = useCollection(collection(db, "chats"));
-    // const chats = snapshot?.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-    // console.log(chats[0].conversation[chats[0].conversation.length-1].message);
+    const [visible, setVisible] = useState(false);
 
 
     const handleClick = (id, chat) => {
@@ -32,6 +31,11 @@ const SideBar = ({ drawerWidth, displayMenu, setDisplayMenu }) => {
         return `${fecha.toLocaleString()}`;
     }
 
+    useEffect(() => {
+        if (chats !== []) {
+            setVisible(true);
+        }
+    }, [chats])
 
 
 
@@ -58,8 +62,10 @@ const SideBar = ({ drawerWidth, displayMenu, setDisplayMenu }) => {
                 </Toolbar>
                 <Divider />
                 {
+                    visible &&
                     <List sx={{ width: '100%', maxWidth: 240, overflow: 'hidden', scrollbarWidth: 'none', overflowY: 'scroll', }}>
                         {
+
                             chats?.map(({ id, data, conversation }, idx) => (
                                 conversation &&
                                 <div key={id}>

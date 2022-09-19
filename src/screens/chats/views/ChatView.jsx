@@ -1,24 +1,19 @@
-import { useEffect, useRef, useState } from "react";
-import { addDoc, collection, doc, limit, limitToLast, orderBy, query, serverTimestamp } from "firebase/firestore";
-import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
-import { Avatar, Container, Divider, FormControl, Grid, IconButton, List, ListItem,  TextField, Typography } from "@mui/material";
+import React, { useEffect, useRef } from "react";
+import { Avatar, Container, Divider, Grid,  List, ListItem,  Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import SendIcon from '@mui/icons-material/Send';
-import { FileUploadTwoTone } from "@mui/icons-material";
-import { db } from "../../../firebase/firebaseConfig";
 import { useSelector } from "react-redux";
+import MessagesList from "./components/MessagesList";
+import BottomBar from "./components/BottomBar";
 import './Chat.css';
-
 
 
 
 const ChatView = () => {
 
     const { active, chats } = useSelector(state => state.chats);
-    const { displayName, photoURL } = useSelector(state => state.auth);
-    const [message, setMessage] = useState('');
+    const { displayName } = useSelector(state => state.auth);
     const { id } = active;
-    const index = chats.map(chat => chat.id).indexOf(active.id);
+    const index = chats.map(chat => chat.id).indexOf(id);
    
     const conversation = chats[index].conversation;
     const bottomOfChat = useRef();
@@ -53,24 +48,7 @@ const ChatView = () => {
         })
         , [conversation]);
 
-    const sendMessage = async (text) => {
 
-        await addDoc(collection(db, `chats/${id}/conversation`), {
-            sender: displayName,
-            message: text,
-            senderPhoto: photoURL ? photoURL : 'https://icon-library.com/images/no-profile-picture-icon/no-profile-picture-icon-14.jpg',
-            timestamp: serverTimestamp()
-        });
-        setMessage('');
-    }
-
-    const handleSendMessage = (e) => {
-        e.preventDefault();
-        if (message.trim().length <= 0) return;
-
-        sendMessage(message);
-
-    }
 
     return (
         <Container className='animate__animated animate__fadeIn animate__faster'>
@@ -79,7 +57,7 @@ const ChatView = () => {
                 <Grid container spacing={4} alignItems="center">
                     <Grid id="chat-window" xs={12} item>
                         <List id="chat-window-messages">
-                            {getMessages()}
+                            <MessagesList conversation={conversation} displayName={displayName}/>
                             <div ref={bottomOfChat}></div>
                         </List>
                     </Grid>
@@ -90,37 +68,8 @@ const ChatView = () => {
                                         variant="outlined" />
                                 </FormControl>
                             </Grid> */}
-
-                    <Grid xs={10} item>
-                        <form onSubmit={handleSendMessage} action="">
-
-                            <FormControl fullWidth>
-                                <TextField
-                                    label="Type your message..."
-                                    variant="outlined"
-                                    autoComplete="off"
-                                    value={message}
-                                    onChange={(e) => { setMessage(e.target.value) }} />
-                            </FormControl>
-                        </form>
-                    </Grid>
-                    <Grid xs={1} item>
-                        <IconButton
-                            aria-label="file"
-                            color="primary">
-                            <FileUploadTwoTone />
-                        </IconButton>
-                    </Grid>
-                    <Grid xs={1} item>
-                        <IconButton
-                            onClick={handleSendMessage}
-                            aria-label="send"
-                            color="primary"
-                            type='submit'
-                        >
-                            <SendIcon />
-                        </IconButton>
-                    </Grid>
+                    <BottomBar />
+                    
                 </Grid>
             </Box>
         </Container>
