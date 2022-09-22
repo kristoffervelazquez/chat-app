@@ -1,13 +1,12 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 
 
 const userExist = async (uid) => {
-    const q = query(collection(db, 'users'), where('id', '==', uid),)
-    const documento = await getDocs(q);
+    const docRef = doc(db, 'users', uid)
+    const documento = await getDoc(docRef);
 
-
-    return (documento.size > 0)
+    return documento.exists();
 
 }
 

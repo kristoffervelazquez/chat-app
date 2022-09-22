@@ -12,6 +12,7 @@ import { PersonAdd } from '@mui/icons-material';
 import MainHome from './components/MainHome';
 import userExist from '../../../helpers/userExist';
 import addFriend from '../../../helpers/addFriend';
+import { createUserDocument } from '../../../helpers/createUserDocument';
 
 
 
@@ -147,12 +148,15 @@ const MainView = () => {
 
                         <Grid container spacing={2} direction={'column'} paddingY={5}>
                             <Grid item>
-                                <SquareButton text={'Boton'} color='aqua' callback={() => addFriend(uid, friends, '0000')} />
-                            </Grid>
-                            <Grid item>
-                                <SquareButton text={'Boton'} color='aqua' callback={() => {dispatch(startLoadingRequests())}} />
+                                <SquareButton text={'Boton'} color='aqua' callback={() => addFriend(uid, '0000')} />
                             </Grid>
 
+                            <Grid item>
+                                <SquareButton text={'Boton'} color='aqua' callback={() => { dispatch(startLoadingRequests()) }} />
+                            </Grid>
+                            <Grid item>
+                                <SquareButton text={'Boton'} color='aqua' callback={() => { createUserDocument({ email: email, displayName: displayName, photoURL: photoURL, uid: uid }) }} />
+                            </Grid>
                         </Grid>
                     </Grid>
 
