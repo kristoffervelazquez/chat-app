@@ -1,5 +1,6 @@
 import { addDoc, collection, limitToLast, onSnapshot, orderBy, query, where } from "firebase/firestore"
 import { db } from "../../../firebase/firebaseConfig"
+import { loadRequests } from "../auth/authSlice"
 // import loadChatList from "../../../helpers/loadChatList"
 import { activeChat, closeChat, loadChats, loadConversation, newChat } from "./chatsSlice"
 
@@ -76,6 +77,24 @@ export const startLoadingConversation = () => {
             })
         })
     }
+}
 
 
+export const startLoadingRequests = () => {
+
+    return async (dispatch, getState) => {
+        const { uid } = getState().auth;
+
+        const q = query(collection(db, 'users'), where('id', '==', uid),)
+
+        const unsub = onSnapshot(q, document => {
+            if (document.docs[0].data().requests.length > 0) {
+                dispatch(loadRequests(document.docs[0].data().requests));
+
+            }
+        })
+
+
+
+    }
 }

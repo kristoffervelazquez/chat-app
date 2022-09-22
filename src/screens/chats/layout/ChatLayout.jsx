@@ -1,7 +1,7 @@
 import { Toolbar } from '@mui/material';
 import { Box } from '@mui/system'
 import { useState } from 'react';
-import NavBar from '../components/NavBar';
+import NavBar from '../components/navbar/NavBar';
 import SideBar from '../components/SideBar';
 
 

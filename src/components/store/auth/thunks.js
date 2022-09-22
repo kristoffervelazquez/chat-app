@@ -87,7 +87,9 @@ export const createUserDocument = async (user) => {
             name: displayName,
             picture: photoURL,
             email: email,
-            friends: []
+            friends: [],
+            requests: [],
+            sended: []
         }
 
         console.log(userInformation)

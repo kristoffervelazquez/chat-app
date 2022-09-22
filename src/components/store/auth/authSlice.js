@@ -9,7 +9,9 @@ export const authSlice = createSlice({
         displayName: null,
         photoURL: null,
         errorMessage: null,
-        friends: null
+        friends: null,
+        requests: null,
+        sended: null
     },
     reducers: {
         login: (state, { payload }) => {
@@ -28,16 +30,19 @@ export const authSlice = createSlice({
             state.photoURL = null;
             state.errorMessage = payload?.errorMessage;
             state.friends = null;
+            state.requests = null;
         },
         checkingCredentials: (state) => {
             state.status = 'checking'
         },
         loadFriends: (state, { payload }) => {
             state.friends = payload;
+        },
+        loadRequests: (state, {payload}) => {
+            state.requests = payload;
         }
-
     }
 })
 
 
-export const { login, logout, checkingCredentials, loadFriends } = authSlice.actions;
+export const { login, logout, checkingCredentials, loadFriends, loadRequests } = authSlice.actions;
