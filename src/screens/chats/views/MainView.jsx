@@ -2,7 +2,7 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import SquareButton from '../components/SquareButton';
 import validator from "validator";
-import { addNewChat, startLoadingChats, startLoadingConversation, startLoadingRequests } from '../../../components/store/chats/thunks';
+import { addNewChat } from '../../../components/store/chats/thunks';
 import { useCollection } from "react-firebase-hooks/firestore";
 import { collection } from "firebase/firestore";
 import { db } from '../../../firebase/firebaseConfig';
@@ -152,7 +152,7 @@ const MainView = () => {
                             </Grid>
 
                             <Grid item>
-                                <SquareButton text={'Boton'} color='aqua' callback={() => { dispatch(startLoadingRequests()) }} />
+                                <SquareButton text={'Boton'} color='aqua' callback={() => { }} />
                             </Grid>
                             <Grid item>
                                 <SquareButton text={'Boton'} color='aqua' callback={() => { createUserDocument({ email: email, displayName: displayName, photoURL: photoURL, uid: uid }) }} />

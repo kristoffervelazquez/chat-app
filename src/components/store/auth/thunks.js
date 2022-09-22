@@ -1,7 +1,9 @@
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../../../firebase/firebaseConfig";
 import { registerUserWithEmailPassword, signInWithGoogle, logInWithEmailAndPassword, logoutFirebase } from "../../../firebase/providers";
 import { createUserDocument } from "../../../helpers/createUserDocument";
 import { loadUserInformation } from "../../../helpers/loadUserInformation";
-import { checkingCredentials, loadFriends, login, logout } from "./authSlice"
+import { checkingCredentials, loadFriends, loadRequests, loadSended, login, logout } from "./authSlice"
 
 
 
@@ -66,10 +68,22 @@ export const startLogout = () => {
     }
 }
 
-export const startLoadingFriends = (uid) => {
-    return async (dispatch) => {
-        const { friends } = await loadUserInformation(uid);
-        dispatch(loadFriends(friends));
+
+export const startLoadingUserInformation = () => {
+
+    return async (dispatch, getState) => {
+        const { uid } = getState().auth;
+        const docRef = doc(db, 'users', uid);       
+
+
+        const unsub = onSnapshot(docRef, (doc) => {
+            dispatch(loadRequests(doc.data().requests));
+            dispatch(loadFriends(doc.data().friends));
+            dispatch(loadSended(doc.data().sended));
+        });
+
+
+
     }
 }
 

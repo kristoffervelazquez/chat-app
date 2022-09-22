@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { onAuthStateChanged } from 'firebase/auth'
 import { login, logout } from '../../components/store/auth/authSlice';
 import { firebaseAuth } from '../../firebase/firebaseConfig';
-import { startLoadingFriends } from '../../components/store/auth/thunks';
+import { startLoadingFriends, startLoadingUserInformation } from '../../components/store/auth/thunks';
 import { startLoadingChats, startLoadingConversation } from '../../components/store/chats/thunks';
 
 
@@ -20,6 +20,7 @@ const useCheckAuth = () => {
             dispatch(login({ uid, email, photoURL, displayName }))
             dispatch(startLoadingFriends(uid));
             dispatch(startLoadingChats(email));
+            dispatch(startLoadingUserInformation());
             setTimeout(() => { dispatch(startLoadingConversation()) }, 500);
 
         });

@@ -31,6 +31,7 @@ export const authSlice = createSlice({
             state.errorMessage = payload?.errorMessage;
             state.friends = null;
             state.requests = null;
+            state.sended = null;
         },
         checkingCredentials: (state) => {
             state.status = 'checking'
@@ -40,9 +41,12 @@ export const authSlice = createSlice({
         },
         loadRequests: (state, {payload}) => {
             state.requests = payload;
+        },
+        loadSended: (state, {payload}) => {
+            state.sended = payload;
         }
     }
 })
 
 
-export const { login, logout, checkingCredentials, loadFriends, loadRequests } = authSlice.actions;
+export const { login, logout, checkingCredentials, loadFriends, loadRequests, loadSended} = authSlice.actions;
