@@ -1,7 +1,8 @@
 import { updateDoc } from "firebase/firestore"
+import { db } from "../firebase/firebaseConfig";
 import { loadUserInformation } from "./loadUserInformation"
 
-const addFriend = async (uid, firendToAdd) => {
+const addFriend = async (uid, friendToAdd) => {
     // const q = query(collection(db, 'users'), where('id', '==', uid))
     // const docu = await getDocs(q);
     // const docRef = doc(db, 'users', docu.docs[0].id)
@@ -10,8 +11,11 @@ const addFriend = async (uid, firendToAdd) => {
 
     console.log(friends);
     await updateDoc(docRef, {
-        friends: [...friends, firendToAdd]
+        friends: [...friends, friendToAdd]
     })
+
+    await addDoc(collection(db, 'chats'), { users: [uid, friendToAdd] });
+
 }
 
 export default addFriend
