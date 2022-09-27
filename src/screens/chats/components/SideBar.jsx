@@ -1,8 +1,7 @@
 import { useSelector, useDispatch } from "react-redux"
 import { ArrowBack } from "@mui/icons-material"
-import { Box, Divider, Drawer, Grid, ListItemButton, List, ListItemIcon, ListItemText, Toolbar, Typography, IconButton, ListItemAvatar, Avatar } from "@mui/material"
+import { Box, Divider, Drawer, ListItemButton, List, ListItemText, Toolbar, Typography, IconButton, ListItemAvatar, Avatar } from "@mui/material"
 import { setActiveChat } from "../../../components/store/chats/thunks";
-import { Timestamp } from "firebase/firestore";
 import { useEffect } from "react";
 import { useState } from "react";
 
@@ -12,7 +11,7 @@ import { useState } from "react";
 const SideBar = ({ drawerWidth, displayMenu, setDisplayMenu }) => {
 
     const dispatch = useDispatch()
-    const { displayName, email } = useSelector(state => state.auth);
+    const { displayName, email, uid } = useSelector(state => state.auth);
     const { chats } = useSelector(state => state.chats);
     const [visible, setVisible] = useState(false);
 
@@ -23,7 +22,7 @@ const SideBar = ({ drawerWidth, displayMenu, setDisplayMenu }) => {
     }
 
     const displayUser = (users) => {
-        return users.filter(user => user !== email);
+        return users.filter(user => user !== uid);
     }
 
     const handleDate = (date) => {
@@ -32,7 +31,7 @@ const SideBar = ({ drawerWidth, displayMenu, setDisplayMenu }) => {
     }
 
     useEffect(() => {
-        if (chats !== []) {
+        if (chats.length >= 1) {
             setVisible(true);
         }
     }, [chats])

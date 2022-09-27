@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { AppBar, Avatar, Box, Button, ClickAwayListener, Divider, Grid, IconButton, List, ListItem, Modal, Portal, Toolbar, Typography } from '@mui/material'
+import { AppBar, Badge, Box, Button, Divider, Grid, IconButton, List, ListItem, Modal, Portal, Toolbar, Typography } from '@mui/material'
 import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.css'
-import { CloseOutlined, LogoutOutlined, MenuOutlined, PersonAdd } from '@mui/icons-material'
+import { CloseOutlined, LogoutOutlined, Mail, MenuOutlined, PersonAdd } from '@mui/icons-material'
 import { startLogout } from '../../../../components/store/auth/thunks'
 import { closeActiveChat } from '../../../../components/store/chats/thunks';
 import { useState } from 'react'
@@ -85,11 +85,12 @@ const NavBar = ({ drawerWidth, setDisplayMenu }) => {
                                 </IconButton>
                                 :
                                 <>
+                                    <Button onClick={() => { setActiveButton(true) }}>
 
-
-                                    <IconButton color='warning' onClick={() => { setActiveButton(true) }}>
-                                        <PersonAdd />
-                                    </IconButton>
+                                        <Badge badgeContent={requests.length} color="aqua">
+                                            <Mail color="warning" />
+                                        </Badge>
+                                    </Button>
                                     <Modal
                                         style={{ alignItems: "center", justifyContent: "center", display: 'flex' }}
 
@@ -112,7 +113,7 @@ const NavBar = ({ drawerWidth, setDisplayMenu }) => {
                                                     {
                                                         requests?.map(request => (
                                                             <div key={request.id}>
-                                                                <UserRequestItem name={request.name} photo={request.photo} id={request.id}/>
+                                                                <UserRequestItem name={request.name} photo={request.photo} id={request.id} />
                                                                 <Divider />
                                                             </div>
 
