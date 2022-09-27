@@ -112,7 +112,7 @@ const NavBar = ({ drawerWidth, setDisplayMenu }) => {
                                                     {
                                                         requests?.map(request => (
                                                             <div key={request.id}>
-                                                                <UserRequestItem name={request.name} photo={request.photo} />
+                                                                <UserRequestItem name={request.name} photo={request.photo} id={request.id}/>
                                                                 <Divider />
                                                             </div>
 

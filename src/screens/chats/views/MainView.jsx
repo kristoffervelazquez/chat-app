@@ -11,9 +11,9 @@ import Swal from 'sweetalert2';
 import { PersonAdd } from '@mui/icons-material';
 import MainHome from './components/MainHome';
 import userExist from '../../../helpers/userExist';
-import addFriend from '../../../helpers/addFriend';
 import { createUserDocument } from '../../../helpers/createUserDocument';
-
+import { loadUserInformation } from '../../../helpers/loadUserInformation';
+import sendFriendRequest from '../../../helpers/sendFriendRequest';
 
 
 
@@ -86,12 +86,19 @@ const MainView = () => {
                     return;
                 }
 
-                if (usuarioExiste) {
+                if (usuarioExiste && result.value !== uid) {
+
+                    const { picture, name } = await loadUserInformation(result.value);
+                    await sendFriendRequest({ id: uid, name: displayName, photo: photoURL }, result.value);
+
 
                     Swal.fire({
-                        icon: 'success',
+                        imageUrl: picture.toString(),
+                        imageWidth: 200,
+                        imageHeight: 200,
+                        imageAlt: 'User picture',
                         title: 'Friend request sended',
-                        text: 'Your firend request has been submited!',
+                        text: `You have sended a friend request to ${name}!`,
                     })
                 } else {
                     Swal.fire({
@@ -148,7 +155,7 @@ const MainView = () => {
 
                         <Grid container spacing={2} direction={'column'} paddingY={5}>
                             <Grid item>
-                                <SquareButton text={'Boton'} color='aqua' callback={() => addFriend(uid, '0000')} />
+                                <SquareButton text={'Boton'} color='aqua' callback={() => { }} />
                             </Grid>
 
                             <Grid item>

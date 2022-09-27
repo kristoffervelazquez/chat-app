@@ -7,8 +7,8 @@ export const loadUserInformation = async (uid) => {
     const docRef = doc(db, 'users', uid)
     const documento = await getDoc(docRef);
 
-    const { friends, email, name, id, picture } = documento.data();
+    const { friends, email, name, id, picture, requests, sended } = documento.data();
     
 
-    return { friends, email, name, id, picture, docRef};
+    return { friends, email, name, id, picture, docRef, requests, sended};
 }

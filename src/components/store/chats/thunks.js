@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, limitToLast, onSnapshot, orderBy, query, where } from "firebase/firestore"
+import { addDoc, collection, limitToLast, onSnapshot, orderBy, query, where } from "firebase/firestore"
 import { db } from "../../../firebase/firebaseConfig"
 import { activeChat, closeChat, loadChats, loadConversation } from "./chatsSlice"
 
@@ -30,11 +30,11 @@ export const addNewChat = (newUser) => {
 
 
 
-export const startLoadingChats = (email) => {
+export const startLoadingChats = (uid) => {
     return async (dispatch) => {
 
 
-        const q = query(collection(db, "chats"), where("users", "array-contains", email))
+        const q = query(collection(db, "chats"), where("users", "array-contains", uid))
 
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             querySnapshot.forEach((doc) => {

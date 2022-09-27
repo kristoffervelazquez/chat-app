@@ -18,7 +18,9 @@ export const createUserDocument = async (user) => {
         sended: []
     }
 
-    if (userExist(uid)) {
+    const existe = await userExist(uid);
+
+    if (existe) {
         console.log('El usuario ya existe');
         return;
 
