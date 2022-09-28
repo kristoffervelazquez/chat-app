@@ -145,16 +145,16 @@ const MainView = () => {
 
                         <Grid container spacing={1} direction={'row'} alignItems='center' >
                             <Grid item xs={6}>
-                                <SquareButton text={'Friend code'} color='aqua' callback={handleAddFriend} />
+                                <SquareButton text={'Add a new friend'} color='aqua' callback={handleAddFriend} Icon={() => <PersonAdd color='warning' />}/>
                             </Grid>
-                            <Grid item xs={6}>
-                                <SquareButton text={'Add a friend'} color='aqua' callback={() => { handleAddChat() }} Icon={() => <PersonAdd color='warning' />} />
-                            </Grid>
+                            {/* <Grid item xs={6}>
+                                <SquareButton text={'Add a friend'} color='aqua' callback={() => { handleAddChat() }}  />
+                            </Grid> */}
 
                         </Grid>
 
                         <Grid container spacing={2} direction={'column'} paddingY={5}>
-                            <Grid item>
+                            {/* <Grid item>
                                 <SquareButton text={'Boton'} color='aqua' callback={() => { }} />
                             </Grid>
 
@@ -163,7 +163,7 @@ const MainView = () => {
                             </Grid>
                             <Grid item>
                                 <SquareButton text={'Boton'} color='aqua' callback={() => { createUserDocument({ email: email, displayName: displayName, photoURL: photoURL, uid: uid }) }} />
-                            </Grid>
+                            </Grid> */}
                         </Grid>
                     </Grid>
 
