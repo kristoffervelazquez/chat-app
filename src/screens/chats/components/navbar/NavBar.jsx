@@ -85,12 +85,20 @@ const NavBar = ({ drawerWidth, setDisplayMenu }) => {
                                 </IconButton>
                                 :
                                 <>
-                                    <Button onClick={() => { setActiveButton(true) }}>
-
-                                        <Badge badgeContent={requests.length} color="aqua">
-                                            <Mail color="warning" />
-                                        </Badge>
-                                    </Button>
+                                    {
+                                        requests ?
+                                            <Button onClick={() => { setActiveButton(true) }} >
+                                                <Badge badgeContent={requests.length} color="aqua" showZero={true}>
+                                                    <Mail color="warning" />
+                                                </Badge>
+                                            </Button>
+                                            :
+                                            <Button onClick={() => { setActiveButton(true) }}>
+                                                <Badge badgeContent={0} color="aqua" showZero={true}>
+                                                    <Mail color="warning" />
+                                                </Badge>
+                                            </Button>
+                                    }
                                     <Modal
                                         style={{ alignItems: "center", justifyContent: "center", display: 'flex' }}
 
