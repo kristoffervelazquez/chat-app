@@ -2,7 +2,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../../firebase/firebaseConfig";
 import { registerUserWithEmailPassword, signInWithGoogle, logInWithEmailAndPassword, logoutFirebase } from "../../../firebase/providers";
 import { createUserDocument } from "../../../helpers/createUserDocument";
-import { loadUserInformation } from "../../../helpers/loadUserInformation";
+import { clearChats } from "../chats/chatsSlice";
 import { checkingCredentials, loadFriends, loadRequests, loadSended, login, logout } from "./authSlice"
 
 
@@ -64,6 +64,7 @@ export const startLoginWithEmailAndPassword = ({ email, password }) => {
 export const startLogout = () => {
     return async (dispatch) => {
         await logoutFirebase();
+        dispatch(clearChats());
         dispatch(logout());
     }
 }
@@ -73,7 +74,7 @@ export const startLoadingUserInformation = () => {
 
     return async (dispatch, getState) => {
         const { uid } = getState().auth;
-        const docRef = doc(db, 'users', uid);       
+        const docRef = doc(db, 'users', uid);
 
 
         const unsub = onSnapshot(docRef, (doc) => {

@@ -35,9 +35,13 @@ export const chatSlice = createSlice({
 
             })
 
+        },
+        clearChats: (state) => {
+            state.active = null,
+            state.chats = []
         }
     }
 })
 
 
-export const { activeChat, newChat, closeChat, loadChats, loadConversation } = chatSlice.actions;
+export const { activeChat, newChat, closeChat, loadChats, loadConversation, clearChats } = chatSlice.actions;

@@ -19,8 +19,8 @@ const useCheckAuth = () => {
             const { uid, email, photoURL, displayName } = user;
             dispatch(login({ uid, email, photoURL, displayName }));
             dispatch(startLoadingChats(uid));
-            dispatch(startLoadingUserInformation());
-            setTimeout(() => { dispatch(startLoadingConversation()) }, 500);
+            await dispatch(startLoadingUserInformation());
+            setTimeout(() => { dispatch(startLoadingConversation()) }, 1000);
 
         });
     }, [])

@@ -4,6 +4,7 @@ import { Box, Divider, Drawer, ListItemButton, List, ListItemText, Toolbar, Typo
 import { setActiveChat } from "../../../components/store/chats/thunks";
 import { useEffect } from "react";
 import { useState } from "react";
+import { loadUserInformation } from "../../../helpers/loadUserInformation";
 
 
 
@@ -21,19 +22,19 @@ const SideBar = ({ drawerWidth, displayMenu, setDisplayMenu }) => {
         setDisplayMenu(false);
     }
 
-    const displayUser = (users) => {
-        return users.filter(user => user !== uid);
-    }
+    
 
     const handleDate = (date) => {
         const fecha = new Date(date * 1000)
         return `${fecha.toLocaleString()}`;
     }
 
-    useEffect(() => {
+    useEffect(() => {       
+
         if (chats.length >= 1) {
             setVisible(true);
         }
+
     }, [chats])
 
 
@@ -56,7 +57,7 @@ const SideBar = ({ drawerWidth, displayMenu, setDisplayMenu }) => {
                     <IconButton sx={{ ml: -2 }} onClick={() => { setDisplayMenu(false) }} >
                         <ArrowBack />
                     </IconButton>
-                    <Typography variant='h6' noWrap component='div'>{displayName}</Typography>
+                    <Typography variant='h6' noWrap component='div'>Chats</Typography>
 
                 </Toolbar>
                 <Divider />
@@ -65,12 +66,12 @@ const SideBar = ({ drawerWidth, displayMenu, setDisplayMenu }) => {
                     <List sx={{ width: '100%', maxWidth: 240, overflow: 'hidden', scrollbarWidth: 'none', overflowY: 'scroll', }}>
                         {
 
-                            chats?.map(({ id, data, conversation }, idx) => (
+                            chats?.map(({ id, data, conversation, userToDisplay, pictureUrl }, idx) => (
                                 conversation &&
                                 <div key={id}>
-                                    <ListItemButton alignItems="flex-start" onClick={() => { handleClick(id, { username: displayUser(data.users) }) }}>
+                                    <ListItemButton alignItems="flex-start" onClick={() => { handleClick(id, { username: userToDisplay }) }}>
                                         <ListItemAvatar>
-                                            <Avatar alt={displayUser(data.users)[0].toUpperCase()} src="{image}" />
+                                            <Avatar alt={userToDisplay} src={pictureUrl} />
                                         </ListItemAvatar>
                                         <ListItemText
                                             primary={
@@ -80,7 +81,7 @@ const SideBar = ({ drawerWidth, displayMenu, setDisplayMenu }) => {
                                                     variant="body1"
                                                     color="text.primary"
                                                 >
-                                                    {displayUser(data.users)}
+                                                    {userToDisplay}
                                                 </Typography>
                                             }
                                             secondary={

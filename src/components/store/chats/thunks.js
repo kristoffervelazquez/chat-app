@@ -1,5 +1,6 @@
 import { addDoc, collection, limitToLast, onSnapshot, orderBy, query, where } from "firebase/firestore"
 import { db } from "../../../firebase/firebaseConfig"
+import { loadUserInformation } from "../../../helpers/loadUserInformation"
 import { activeChat, closeChat, loadChats, loadConversation } from "./chatsSlice"
 
 
@@ -37,10 +38,12 @@ export const startLoadingChats = (uid) => {
         const q = query(collection(db, "chats"), where("users", "array-contains", uid))
 
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            querySnapshot.forEach((doc) => {
 
-
-                dispatch(loadChats({ id: doc.id, data: doc.data() }));
+            querySnapshot.forEach(async (doc) => {
+                const user = doc.data().users.filter(user => user !== uid);
+                const { name: userToDisplay, picture } = await loadUserInformation(user[0]);
+                console.log(userToDisplay);
+                dispatch(loadChats({ id: doc.id, data: doc.data(), userToDisplay: userToDisplay, pictureUrl: picture  }));
 
             });
 
